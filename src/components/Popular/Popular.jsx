@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Wrapper, Card } from "./Popular.styled";
+import { Wrapper, Card, Gradient} from "./Popular.styled";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
 
@@ -17,29 +17,32 @@ function Popular() {
     const data = await api.json();
     setPopular(data.recipes);
   };
+  
 
   return (
     <>
-      {popular.map((recipe) => {
-        return (
-          <Wrapper>
-            <h3>Popular Picks</h3>
-
-            <Splide>
-              {popular.map((recipe) => {
-                return (
-                  <SplideSlide>
-                    <Card>
-                      <p>{recipe.title}</p>
-                      <img src={recipe.image} alt={recipe.title} />
-                    </Card>
-                  </SplideSlide>
-                );
-              })}
-            </Splide>
-          </Wrapper>
-        );
-      })}
+      <Wrapper>
+        <h3>Popular Picks</h3>
+        <Splide options={{
+            perPage: 4,
+            arrows: false,
+            pagination: false,
+            drag: 'free',
+            gap: '5rem'
+        }}>
+          {popular.map((recipe) => {
+            return (
+              <SplideSlide key={recipe.id}>
+                <Card>
+                  <p>{recipe.title}</p>
+                  <img src={recipe.image} alt={recipe.title} />
+                  <Gradient/>
+                </Card>
+              </SplideSlide>
+            );
+          })}
+        </Splide>
+      </Wrapper>
     </>
   );
 }
